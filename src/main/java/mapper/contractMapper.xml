@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--相当于UserMapper接口的实现 namespace必须是UserMapper类路径-->
+    <mapper namespace="com.qaoption.mapper.ContractMapper"> 
+        
+        <insert id="addContract" parameterType="com.qaoption.model.OptionContract" keyColumn="contract_id" keyProperty="contract_id" useGeneratedKeys="true">
+			INSERT INTO contract(stockCode,contractType,strike,matDate,qty,callPut,premium,interest,iv,user_id)
+			VALUES (#{stockCode},#{contractType},#{strike},#{matDate},#{qty},#{callPut},#{premium},#{interest},#{iv},#{user_id})
+		</insert>
+        <select id="findOptionContractByUserId" parameterType="int" resultType="com.qaoption.model.OptionContract"> 
+        	select * from contract where user_id = #{userId} and contractType = 'OOP' order by stockCode
+        </select>
+        <select id="findFutureContractByUserId" parameterType="int" resultType="com.qaoption.model.OptionContract"> 
+        	select * from contract where user_id = #{userId} and contractType = 'FUT' order by stockCode
+        </select>        		   
+    </mapper>

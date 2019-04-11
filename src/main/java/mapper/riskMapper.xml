@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!--相当于UserMapper接口的实现 namespace必须是UserMapper类路径-->
+    <mapper namespace="com.qaoption.mapper.RiskMapper"> 
+        <!-- findById必须和接口中的方法名一样 返回一个User--> 
+        <select id="findById" parameterType="String" resultType="com.qaoption.model.RiskParameter"> 
+        	select * from risk where risk_id=#{id} 
+        </select>
+        <insert id="addRiskParameter" parameterType="com.qaoption.model.RiskInput" keyColumn="risk_id" keyProperty="risk_id" useGeneratedKeys="true">
+			INSERT INTO risk(businessDate,riskExponent,contractStockCode,contractType,intraCommoditySpreadCharge,shortOptionMinCharge,callput,optionContractMonth,optionStrike,riskArray1,riskArray2,riskArray3,riskArray4,riskArray5,riskArray6,riskArray7,riskArray8,riskArray9,riskArray10,riskArray11,riskArray12,riskArray13,riskArray14,riskArray15,riskArray16,compositeDelta,iv,settelementPrice)
+			VALUES (#{businessDate},#{riskExponent},#{contractStockCode},#{contractType},#{intraCommoditySpreadCharge},#{shortOptionMinCharge},#{callput},#{optionContractMonth},#{optionStrike},#{riskArray1},#{riskArray2},#{riskArray3},#{riskArray4},#{riskArray5},#{riskArray6},#{riskArray7},#{riskArray8},#{riskArray9},#{riskArray10},#{riskArray11},#{riskArray12},#{riskArray13},#{riskArray14},#{riskArray15},#{riskArray16},#{compositeDelta},#{iv},#{settelementPrice})
+		</insert>
+        <select id="findByContract" parameterType="com.qaoption.model.OptionContract" resultType="com.qaoption.model.RiskParameter"> 
+        	select * from risk where contractStockCode = #{stockCode} AND contractType = #{contractType}
+        	<if test="contractMonth != null and contractMonth != ''">
+    			AND optionContractMonth = #{contractMonth}
+  			</if>
+  			<if test="callPut != null and callPut != ''">
+    			AND callput = #{callPut}
+  			</if>
+  			<if test="strike != null and strike != ''">
+    			AND optionStrike = #{strike}
+  			</if>        	
+        </select>	
+        <select id="findStrikeSpreadByStockCode" parameterType="String" resultType="java.math.BigDecimal"> 
+        	select strikeSpread from strike_spread where stockCode = #{stockCode} order by strikeSpread
+        </select>        	   
+    </mapper>

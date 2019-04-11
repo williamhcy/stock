@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout">
+<head>
+    <meta charset="utf-8"></meta>
+    <title>index</title>
+</head>
+<body>
+<div layout:fragment="content">
+        <h1>
+            <table width="100%" border="1" cellspacing="1" cellpadding="0">
+			    <tr>
+			        <td>作者</td>
+			        <td>教程名称</td>
+			        <td>地址</td>
+			    </tr>
+			    <!--/*@thymesVar id="learnList" type=""*/-->
+			    <tr th:each="learn : ${learnList}">
+			        <td th:text="${learn}">嘟嘟MD</td>
+			       
+			    </tr>
+			</table>
+        </h1>   
+</div>
+</body>
+</html>
