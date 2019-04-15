@@ -59,7 +59,7 @@ public class OptionController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},value="/addOption")
     @ResponseBody
     public OptionContract addOption(@RequestBody OptionInput optionInput) {
-    	logger.debug("aaaaaaaaaaaaaaaaaaaaaaaaa");
+   
     	logger.debug("OptionController.addOption.getStockCode : "+ optionInput.getStockCode());
     	logger.debug("OptionController.addOption.getStrike : "+ optionInput.getStrike());
     	
