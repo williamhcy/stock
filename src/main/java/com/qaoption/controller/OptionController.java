@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,12 +55,13 @@ public class OptionController {
     	}
     }
 
-	
-    @RequestMapping(value="/addOption", method=RequestMethod.POST)
+  
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},value="/addOption")
     @ResponseBody
-    public String addOption(@RequestBody OptionInput optionInput) {
-    	System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
-    	logger.debug("OptionController.addOption : "+ optionInput.getStockCode());
+    public OptionContract addOption(@RequestBody OptionInput optionInput) {
+    	logger.debug("aaaaaaaaaaaaaaaaaaaaaaaaa");
+    	logger.debug("OptionController.addOption.getStockCode : "+ optionInput.getStockCode());
+    	logger.debug("OptionController.addOption.getStrike : "+ optionInput.getStrike());
     	
     	OptionContract c = new OptionContract();
     	c.setCallPut(optionInput.getCallPut());
@@ -70,16 +73,16 @@ public class OptionController {
     	c.setStockCode(optionInput.getStockCode());
     	c.setStrike(optionInput.getStrike());
     	
-    	portfolioService.addContract(c);
+    	//portfolioService.addContract(c);
     	
-    	return "add Contract Success";
+    	return c;
     	
     }
 
 
     @RequestMapping(value="/getportfolio", method=RequestMethod.GET)
     @ResponseBody
-    public String getPortfolio() {
+    public List<OptionContract> getPortfolio() {
     	List<OptionContract> list = new ArrayList<OptionContract>();
     	Map<String, Portfolio> portfolioMap = portfolioService.getPortfolioByUserId(1);
     	if (portfolioMap != null) {
@@ -92,12 +95,12 @@ public class OptionController {
 			}	
 			
     	} else {
-    		 return "null";
+    		 return null;
     	}
     	
     	// return the list JSON object to the Requester
     	
-    	return "";
+    	return list;
     	
     }
     
