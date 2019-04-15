@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout">
+<head>
+    <meta charset="utf-8"></meta>
+    <title>Your Portfolio - </title>
+</head>
+<body>
+<div layout:fragment="content">
+	<section role="main" class="content-body">
+					<header class="page-header">
+						<h2>Advanced Forms</h2>
+					
+						<div class="right-wrapper pull-right">
+							<ol class="breadcrumbs">
+								<li>
+									<a href="index.html">
+										<i class="fa fa-home"></i>
+									</a>
+								</li>
+								<li><span>Forms</span></li>
+								<li><span>Advanced</span></li>
+							</ol>
+					
+							<span class="sidebar-right-toggle">&nbsp;</span>
+						</div>
+					</header>
+
+					<!-- start: page -->
+						<div class="row">
+							<div class="col-xs-12">
+								<section class="panel">
+									<header class="panel-heading">
+										<div class="panel-actions">
+											<a href="#" class="fa fa-caret-down"></a>
+											<a href="#" class="fa fa-times"></a>
+										</div>
+						
+										<h2 class="panel-title">Manage Options/Futures</h2>
+									</header>
+									<div class="panel-body">
+									<label id="responsttxt"></label>
+										<form class="form-horizontal form-bordered" method="post" action="/option/addOption">
+											<div class="form-group">
+												<label class="col-md-3 control-label">產品</label>
+												<div class="col-md-6">
+													<select id='stockCode' name="stockCode" data-plugin-selectTwo='' class="form-control populate">
+														<optgroup label="指數">
+															<option value="HSI">HSI</option>
+															<option value="MHI">MHSI</option>
+															<option value="HHI">HHI</option>
+															<option value="MHH">MHHI</option>
+														</optgroup>
+														<optgroup label="股票">
+															<option value="A50">A50</option>
+															<option value="CSI">CSI300</option>
+															<option value="OR">Oregon</option>
+															<option value="WA">Washington</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">Long / Short</label>
+												<div class="col-md-6">
+													<div class="radio">
+														<label>
+															<input type="radio" name="optionsLongShort" id="optionsLongShort1" value="long" checked="" />
+															Long
+														</label>&nbsp;&nbsp;
+														<label>
+															<input type="radio" name="optionsLongShort" id="optionsLongShort2" value="short" />
+															Short
+														</label>
+													</div>	
+												</div>	
+											</div>											
+											<div class="form-group">
+												<label class="col-md-3 control-label">Call/Put</label>
+												<div class="col-md-6">
+													<div class="radio">
+														<label>
+															<input type="radio" name="callPut" id="optionsRadios1" value="call" checked="" />
+															Call
+														</label>&nbsp;&nbsp;
+														<label>
+															<input type="radio" name="callPut" id="optionsRadios2" value="put" />
+															Put
+														</label>&nbsp;&nbsp;
+														<label>
+															<input type="radio" name="callPut" id="optionsRadios2" value="future" />
+															Futures
+														</label>
+													</div>	
+												</div>	
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Contract Month</label>
+												<div class="col-md-6">
+													<select id="contractMonth" name="contractMonth" class="form-control mb-md">
+														<option value="201904">Apr 2019</option>
+														<option value="201905">May 2019</option>
+														<option value="201906">Jun 2019</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputPlaceholder">Strike</label>
+												<div class="col-md-6">
+													<input type="text" id="strike" name="strike" class="form-control" placeholder="20000,19.5" value="11" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputPlaceholder">Premium [For Options]</label>
+												<div class="col-md-6">
+													<input type="text" id="premium" name="premium" class="form-control" placeholder="150,0.35" value="0.6" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputPlaceholder">Qty</label>
+												<div class="col-md-6">
+													<input type="text" id="qty" name="qty" class="form-control" placeholder="1,2,3" value="1" />
+												</div>
+											</div>		
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess"></label>
+												<div class="col-md-6">
+												<button type="button" onclick="postJson();" class="mb-xs mt-xs mr-xs btn btn-default">Add</button>											
+												</div>
+											</div>
+										</form>
+									</div>
+								</section>
+								
+								<section class="panel">
+									<header class="panel-heading">
+										<div class="panel-actions">
+											<a href="#" class="fa fa-caret-down"></a>
+											<a href="#" class="fa fa-times"></a>
+										</div>
+								
+										<h2 class="panel-title">Options/Futures Porfolio</h2>
+									</header>
+									<div class="panel-body">
+										<table class="table table-no-more table-bordered table-striped mb-none">
+											<thead>
+												<tr>
+													<th>Code</th>
+													<th class="hidden-xs hidden-sm">Company</th>
+													<th class="text-right">Long/Short</th>
+													<th class="text-right hidden-xs hidden-sm">Strike</th>
+													<th class="text-right">Call/Put/Future</th>
+													<th class="text-right">Premium</th>
+													<th class="text-right hidden-xs hidden-sm">Qty</th>
+													<th class="text-right hidden-xs hidden-sm">Price</th>
+													<th class="text-right">IV</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td data-title="Code">AAC</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
+													<td data-title="Price" class="text-right">$1.38</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">-0.01</td>
+													<td data-title="Change %" class="text-right">-0.36%</td>
+													<td data-title="Open" class="text-right">$1.39</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$1.39</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$1.38</td>
+													<td data-title="Volume" class="text-right">9,395</td>
+												</tr>
+												<tr>
+													<td data-title="Code">AAD</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ARDENT LEISURE GROUP</td>
+													<td data-title="Price" class="text-right">$1.15</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">  +0.02</td>
+													<td data-title="Change %" class="text-right">1.32%</td>
+													<td data-title="Open" class="text-right">$1.14</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$1.15</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$1.13</td>
+													<td data-title="Volume" class="text-right">56,431</td>
+												</tr>
+												<tr>
+													<td data-title="Code">AAX</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">AUSENCO LIMITED</td>
+													<td data-title="Price" class="text-right">$4.00</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">-0.04</td>
+													<td data-title="Change %" class="text-right">-0.99%</td>
+													<td data-title="Open" class="text-right">$4.01</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$4.05</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$4.00</td>
+													<td data-title="Volume" class="text-right">90,641</td>
+												</tr>
+												<tr>
+													<td data-title="Code">ABC</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ADELAIDE BRIGHTON LIMITED</td>
+													<td data-title="Price" class="text-right">$3.00</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">  +0.06</td>
+													<td data-title="Change %" class="text-right">2.04%</td>
+													<td data-title="Open" class="text-right">$2.98</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$3.00</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$2.96</td>
+													<td data-title="Volume" class="text-right">862,518</td>
+												</tr>
+												<tr>
+													<td data-title="Code">ABP</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ABACUS PROPERTY GROUP</td>
+													<td data-title="Price" class="text-right">$1.91</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">0.00</td>
+													<td data-title="Change %" class="text-right">0.00%</td>
+													<td data-title="Open" class="text-right">$1.92</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$1.93</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$1.90</td>
+													<td data-title="Volume" class="text-right">595,701</td>
+												</tr>
+												<tr>
+													<td data-title="Code">ABY</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ADITYA BIRLA MINERALS LIMITED</td>
+													<td data-title="Price" class="text-right">$0.77</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">  +0.02</td>
+													<td data-title="Change %" class="text-right">2.00%</td>
+													<td data-title="Open" class="text-right">$0.76</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$0.77</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$0.76</td>
+													<td data-title="Volume" class="text-right">54,567</td>
+												</tr>
+												<tr>
+													<td data-title="Code">ACR</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ACRUX LIMITED</td>
+													<td data-title="Price" class="text-right">$3.71</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">  +0.01</td>
+													<td data-title="Change %" class="text-right">0.14%</td>
+													<td data-title="Open" class="text-right">$3.70</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$3.72</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$3.68</td>
+													<td data-title="Volume" class="text-right">191,373</td>
+												</tr>
+												<tr>
+													<td data-title="Code">ADU</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ADAMUS RESOURCES LIMITED</td>
+													<td data-title="Price" class="text-right">$0.72</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">0.00</td>
+													<td data-title="Change %" class="text-right">0.00%</td>
+													<td data-title="Open" class="text-right">$0.73</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$0.74</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$0.72</td>
+													<td data-title="Volume" class="text-right">8,602,291</td>
+												</tr>
+												<tr>
+													<td data-title="Code">AGG</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ANGLOGOLD ASHANTI LIMITED</td>
+													<td data-title="Price" class="text-right">$7.81</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">-0.22</td>
+													<td data-title="Change %" class="text-right">-2.74%</td>
+													<td data-title="Open" class="text-right">$7.82</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$7.82</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$7.81</td>
+													<td data-title="Volume" class="text-right">148</td>
+												</tr>
+												<tr>
+													<td data-title="Code">AGK</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">AGL ENERGY LIMITED</td>
+													<td data-title="Price" class="text-right">$13.82</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">  +0.02</td>
+													<td data-title="Change %" class="text-right">0.14%</td>
+													<td data-title="Open" class="text-right">$13.83</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$13.83</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$13.67</td>
+													<td data-title="Volume" class="text-right">846,403</td>
+												</tr>
+												<tr>
+													<td data-title="Code">AGO</td>
+													<td data-title="Company" class="hidden-xs hidden-sm">ATLAS IRON LIMITED</td>
+													<td data-title="Price" class="text-right">$3.17</td>
+													<td data-title="Change" class="text-right hidden-xs hidden-sm">-0.02</td>
+													<td data-title="Change %" class="text-right">-0.47%</td>
+													<td data-title="Open" class="text-right">$3.11</td>
+													<td data-title="High" class="text-right hidden-xs hidden-sm">$3.22</td>
+													<td data-title="Low" class="text-right hidden-xs hidden-sm">$3.10</td>
+													<td data-title="Volume" class="text-right">5,416,303</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+							</div>
+						</div>  
+     </section>
+     
+     
+
+<script type="text/javascript" th:inline="javascript">
+
+  
+  function postJson() {
+    var OptionContract = new Object();  
+	OptionContract.stockCode = $("#stockCode").val();
+	OptionContract.longShort = $("input[name='optionsLongShort']:checked").val();
+ 	OptionContract.callPutVal = $("input[name='callPut']:checked").val();
+ 	OptionContract.contractMonth = $("#contractMonth").val();
+	OptionContract.sticke = $("#strike").val();
+	OptionContract.premim = $("#premium").val();
+	OptionContract.qty = $("#qty").val();
+	
+	console.log('stricke:' + $("#strike").val());
+	
+	
+	JSON.stringify(OptionContract);
+ 	
+    $.ajax({ 
+        type : "POST", 
+        contentType : 'application/json',
+        url  : "/option/addOption",  
+        cache : false, 
+        data : JSON.stringify(OptionContract), 
+        success : onSuccessResult, 
+        error : onErrorResult
+    });
+    
+    return false; 
+  }
+ 
+  function onSuccessResult(data,status){
+	console.log('success1'+data);
+	var jsondata = JSON.stringify(data);
+    console.log(jsondata);
+    
+    showText(jsondata);
+  }
+ 
+  function onErrorResult(xmlhttprequest, textstatus, errorthrown){ 
+    
+    console.log('onErrorResult:'+errorthrown);
+    showText(errorthrown);
+  }
+  
+  function showText(txt) {
+    var showingtxt = document.getElementById("responsttxt");
+    showingtxt.innerHTML = '<label id="responsttxt">' + txt + '</label>';
+  }
+ 
+  </script>
+		     						
+</div>
+</body>
+</html>
