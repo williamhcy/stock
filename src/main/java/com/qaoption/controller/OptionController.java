@@ -119,13 +119,20 @@ public class OptionController {
     
     @RequestMapping(value="/portfolio", method=RequestMethod.GET)
     public ModelAndView portfolio(){
-        List<String> learnList =new ArrayList<String>();
-       
-      
-        learnList.add("data1");  
-        learnList.add("data2");
+    	List<OptionContract> list = new ArrayList<OptionContract>();
+    	Map<String, Portfolio> portfolioMap = portfolioService.getPortfolioByUserId(1);
+    	if (portfolioMap != null) {
+			for (Map.Entry<String, Portfolio> entry : portfolioMap.entrySet()) {
+			    String key = entry.getKey();
+			    Portfolio port = entry.getValue();
+			    logger.debug("portfolio:" + port.getStockCode());
+			    list.addAll(port.getFutures());
+			    list.addAll(port.getOptions());
+			}	
+			
+    	} 
         ModelAndView modelAndView = new ModelAndView("/portfolio");
-        modelAndView.addObject("learnList", learnList);
+        modelAndView.addObject("portfolioMap", list);
         return modelAndView;
     }
 }
